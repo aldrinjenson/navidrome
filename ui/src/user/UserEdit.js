@@ -12,6 +12,7 @@ import {
   useTranslate,
   Toolbar,
   SaveButton,
+  useLocale,
 } from 'react-admin'
 import { Title } from '../common'
 import DeleteUserButton from './DeleteUserButton'
@@ -23,9 +24,19 @@ const useStyles = makeStyles({
   },
 })
 
+const dateOptions = {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: '2-digit',
+  hour12: true,
+}
+
 const UserTitle = ({ record }) => {
   const translate = useTranslate()
   const resourceName = translate('resources.user.name', { smart_count: 1 })
+
   return <Title subTitle={`${resourceName} ${record ? record.name : ''}`} />
 }
 
@@ -36,20 +47,38 @@ const UserToolbar = (props) => (
   </Toolbar>
 )
 
-const UserEdit = (props) => (
-  <Edit title={<UserTitle />} {...props}>
-    <SimpleForm variant={'outlined'} toolbar={<UserToolbar />}>
-      <TextInput source="userName" validate={[required()]} />
-      <TextInput source="name" validate={[required()]} />
-      <TextInput source="email" validate={[email()]} />
-      <PasswordInput source="password" validate={[required()]} />
-      <BooleanInput source="isAdmin" initialValue={false} />
-      <DateField source="lastLoginAt" showTime />
-      {/*<DateField source="lastAccessAt" showTime />*/}
-      <DateField source="updatedAt" showTime />
-      <DateField source="createdAt" showTime />
-    </SimpleForm>
-  </Edit>
-)
+const UserEdit = (props) => {
+  const locale = useLocale()
+  return (
+    <Edit title={<UserTitle />} {...props}>
+      <SimpleForm toolbar={<UserToolbar />} variant="outlined">
+        <TextInput source="userName" validate={[required()]} />
+        <TextInput source="name" validate={[required()]} />
+        <TextInput source="email" validate={[email()]} />
+        <PasswordInput source="password" validate={[required()]} />
+        <BooleanInput source="isAdmin" initialValue={false} />
+        <DateField
+          source="lastLoginAt"
+          locales={locale}
+          options={dateOptions}
+          showTime
+        />
+        {/*<DateField source="lastAccessAt" showTime />*/}
+        <DateField
+          source="updatedAt"
+          locales={locale}
+          options={dateOptions}
+          showTime
+        />
+        <DateField
+          source="createdAt"
+          locales={locale}
+          options={dateOptions}
+          showTime
+        />
+      </SimpleForm>
+    </Edit>
+  )
+}
 
 export default UserEdit

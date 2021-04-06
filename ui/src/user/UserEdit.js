@@ -59,6 +59,7 @@ const UserEdit = (props) => {
         <BooleanInput source="isAdmin" initialValue={false} />
         <DateField
           source="lastLoginAt"
+          variant="body1"
           locales={locale}
           options={dateOptions}
           showTime
@@ -66,12 +67,14 @@ const UserEdit = (props) => {
         {/*<DateField source="lastAccessAt" showTime />*/}
         <DateField
           source="updatedAt"
+          variant="body1"
           locales={locale}
           options={dateOptions}
           showTime
         />
         <DateField
           source="createdAt"
+          variant="body1"
           locales={locale}
           options={dateOptions}
           showTime
